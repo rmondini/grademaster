@@ -5,7 +5,9 @@ class StudentRecord:
     hwscores_ = []
     mtscores_ = []
     finalscore_ = 0.0
-
+    totalgrade_ = 0.0
+    lettergrade_ = ''
+    
     # initialize class to zero and fill in all fields
     def __init__(self,datalist,keyslist) :
         self.lastname_ = ''
@@ -14,7 +16,11 @@ class StudentRecord:
         self.hwscores_ = []
         self.mtscores_ = []
         self.finalscore_ = 0.0
+        self.totalgrade_ = 0.0
+        self.lettergrade_ = ''
+        
         self.input(datalist,keyslist)
+        self.computetotalgrade()
         
     # print content    
     def __str__(self):
@@ -24,7 +30,9 @@ class StudentRecord:
         hwlist = "HW scores: " + str(self.hwscores_) + '\n'
         mtlist = "MT scores: " + str(self.mtscores_) + '\n'
         fs = "Final exam: " + str(self.finalscore_) + '\n'
-        return ln + fn + stid + hwlist + mtlist + fs
+        tg = "Total grade: " + str(self.totalgrade_) + '\n'
+        lg = "Letter grade: " + str(self.lettergrade_) + '\n'
+        return ln + fn + stid + hwlist + mtlist + fs + tg + lg
        
     # fill in all fields    
     def input(self, datalist, keyslist):
@@ -48,10 +56,35 @@ class StudentRecord:
                 self.finalscore_ = float(data)
             else:
                 sys.exit("Unknown key! Stop.")
-                
-    def gethwscores(self):
-        return self.hwscores_
+          
+    # compute total grade            
+    def computetotalgrade(self):
+        hwavg = sum(self.hwscores_)/len(self.hwscores_)
+        maxmt = max(self.mtscores_)
+        minmt = min(self.mtscores_)
+        final = self.finalscore_
+    
+        # 20% HW, 25% max MT, 20% min MT, 35% final
+        self.totalgrade_ = 0.20*hwavg+0.25*maxmt+0.20*minmt+0.35*final
         
-    def getlastname(self):
-        return self.lastname_   
+    def assignlettergrade(self,lg):
+        self.lettergrade_ = lg
+           
+    def gettotalgrade(self):
+        return self.totalgrade_
+
+    def getfinalscore(self):
+        return self.finalscore_
+
+    def getmt1score(self):
+        return self.mtscores_[0]
+    
+    def getmt2score(self):
+        return self.mtscores_[1]
+            
+    def getname(self):
+        return str(self.lastname_) + ' ' + str(self.firstname_)
+    
+    def getstudentid(self):
+        return self.studentid_  
         
