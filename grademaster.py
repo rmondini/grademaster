@@ -5,11 +5,18 @@ REVISION_DATE = "2019-05-24"
 AUTHOR = "(rmondini@buffalo.edu)"
 
 import sys
+import time
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.ticker as mtick
 from StudentRecord import StudentRecord
 from operator import itemgetter
+
+def tot_exec_time_str(time_start):
+    time_end = time.time()
+    exec_time = time_end-time_start
+    tmp_str = "Total execution time: %0.3fs (%dh %dm %0.3fs)" %(exec_time, exec_time/3600, (exec_time%3600)/60,(exec_time%3600)%60)
+    return tmp_str
 
 def get_studrecpos_byid(recordlist,lookupid):
     
@@ -131,6 +138,8 @@ def rank_students(recordlist):
 
 def main() :
     
+    time_start = time.time()
+        
     print "~~~~~~~~~~ " + FILE_NAME + " ~~~~~~~~~~"
     print REVISION_DATE + " " + AUTHOR 
     print
@@ -176,11 +185,11 @@ def main() :
             
     # compute class average on 'MT1', 'MT2', 'Final', or 'Total'
     strkey = 'Total'
-    print "Class average for " + strkey + ": ",compute_avg(recordlist,strkey)
+    print "Class average for " + strkey + ": ",compute_avg(recordlist,strkey),'\n'
 
     # create histogram for 'MT1', 'MT2', 'Final', or 'Total'
     strkey = 'Total'
-#    create_histo(recordlist,strkey)
+    create_histo(recordlist,strkey)
         
     # rank students and assign letter grades
     rank_students(recordlist)
@@ -191,9 +200,9 @@ def main() :
 
     # look up a student record by student id
     # print their record if student is found
-    lookupid = 59118211
+    lookupid = 64954807
     studrecpos=get_studrecpos_byid(recordlist,lookupid)
-    print "Student ",lookupid, " is at position: ",studrecpos
+    print "Student ",lookupid, " is at position: ",studrecpos,'\n'
     if isinstance(studrecpos,(int,long)):
         print recordlist[studrecpos]
     
@@ -210,17 +219,18 @@ def main() :
      
      
      
-     
+
      
      
      
             
     #TODO:
-    # test with longer input file
     # file with functions
     # grades at different stages of the semester
     # implement different sections
     
+    tmp_str = tot_exec_time_str(time_start)
+    print tmp_str
     print "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
     
 if __name__ == "__main__" :
