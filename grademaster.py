@@ -181,7 +181,7 @@ def main() :
 
     # create histogram for 'MT1', 'MT2', 'Final', or 'Total'
     strkey = 'Total'
-    create_histo(recordlist,strkey)
+#    create_histo(recordlist,strkey)
         
     # rank students and assign letter grades
     rank_students(recordlist)
@@ -197,16 +197,29 @@ def main() :
     print "Student ",lookupid, " is at position: ",studrecpos
     if isinstance(studrecpos,(int,long)):
         print recordlist[studrecpos]
+    
+    # write out updated file in csv format
+    outfile = open("output.csv", "w+")
+    outkeyslist = ', '.join(keyslist) + ',Total,Letter\n'
+    outfile.write(outkeyslist)
+    for sr in recordlist:
+        outfile.write(sr.printout())
+    outfile.close()
+     
+ 
+     
+     
+     
+     
+     
+     
+     
+     
             
     #TODO:
     # file with functions
     # grades at different stages of the semester
     # implement different sections
-    # print output file
-    
-    
-    
-    
     
     print "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
     

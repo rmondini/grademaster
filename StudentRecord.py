@@ -34,6 +34,18 @@ class StudentRecord:
         lg = "Letter grade: " + str(self.lettergrade_) + '\n'
         return ln + fn + stid + hwlist + mtlist + fs + tg + lg
        
+    # print content in csv format
+    def printout(self):
+        ln = str(self.lastname_) + ','
+        fn = str(self.firstname_) + ','
+        stid = str(self.studentid_) + ','
+        hwlist = str(self.hwscores_).strip('[]') + ','
+        mtlist = str(self.mtscores_).strip('[]') + ','        
+        fs = str(self.finalscore_) + ','
+        tg = str(self.totalgrade_) + ','
+        lg = str(self.lettergrade_) + '\n'
+        return ln + fn + stid + hwlist + mtlist + fs + tg + lg
+      
     # fill in all fields    
     def input(self, datalist, keyslist):
         nkeys=len(keyslist)
