@@ -5,6 +5,9 @@ REVISION_DATE = "2019-05-23"
 AUTHOR = "(rmondini@buffalo.edu)"
 
 import sys
+import numpy as np
+import matplotlib.pyplot as plt
+import matplotlib.ticker as mtick
 from StudentRecord import StudentRecord
 from operator import itemgetter
 
@@ -34,6 +37,36 @@ def compute_avg(recordlist,strkey):
     avgscore = sum(scorelist)/len(scorelist)
     return avgscore
 
+def create_histo(recordlist,strkey):
+    
+    if strkey == 'MT1':
+        scorelist = [i.getmt1score() for i in recordlist]
+    elif strkey == 'MT2':   
+        scorelist = [i.getmt2score() for i in recordlist]        
+    elif strkey == 'Final':
+        scorelist = [i.getfinalscore() for i in recordlist]               
+    elif strkey == 'Total':
+        scorelist = [i.gettotalgrade() for i in recordlist]  
+    else:
+        sys.exit("Unknown key! Stop.")
+    
+#     plt.title('Class statistics')
+#     plt.xlabel('Score')
+#     plt.ylabel('# of students')
+#     plt.xticks(range(0,110,10))
+#     plt.hist(scorelist, bins=range(0,110,10))
+    
+    fig = plt.figure()
+    ax1 = fig.add_subplot(111)
+    ax1.set_title('Class statistics')
+    ax1.set_xlabel('Score')
+    ax1.set_ylabel('# of students')
+    ax1.set_xticks(range(0,110,10))
+    ax1.yaxis.set_major_locator(mtick.MaxNLocator(integer=True))
+    ax1.hist(scorelist, bins=range(0,110,10))
+    
+    plt.show()
+    
 def rank_students(recordlist):
 
     nreclist = len(recordlist)
@@ -127,7 +160,6 @@ def main() :
     # create list of StudentRecord
     # fill in all fields
     # compute total grades
-    
     recordlist = []
         
     for line in datafile.readlines():
@@ -140,19 +172,23 @@ def main() :
         recordlist.append(sr)
     
     # print recordlist
-    for sr in recordlist:
-        print sr
+#    for sr in recordlist:
+#        print sr
             
     # compute class average on 'MT1', 'MT2', 'Final', or 'Total'
     strkey = 'MT1'
     print "Class average for " + strkey + ": ",compute_avg(recordlist,strkey)
-    
+
+    # create histogram for 'MT1', 'MT2', 'Final', or 'Total'
+    strkey = 'Total'
+    create_histo(recordlist,strkey)
+        
     # rank students and assign letter grades
     rank_students(recordlist)
     
     # print recordlist
-    for sr in recordlist:
-        print sr
+#    for sr in recordlist:
+#        print sr
 
     # look up a student record by student id
     # print their record if student is found
@@ -163,7 +199,7 @@ def main() :
         print recordlist[studrecpos]
             
     #TODO:
-    # histogram class
+    # file with functions
     # grades at different stages of the semester
     # implement different sections
     # print output file
