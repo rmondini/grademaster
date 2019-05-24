@@ -11,9 +11,13 @@ class StudentRecord:
     lettergrade_ = ''
     outofn_ = 0
     finaldone_ = False
+    pchw_ = 0.0
+    pcmaxmt_ = 0.0
+    pcminmt_ = 0.0
+    pcfinal_ = 0.0
     
     # initialize class to zero and fill in all fields
-    def __init__(self,datalist,keyslist,cumuloutof,fdone) :
+    def __init__(self,datalist,keyslist,auxlist) :
         self.lastname_ = ''
         self.firstname_ = ''
         self.studentid_ = ''
@@ -24,8 +28,12 @@ class StudentRecord:
         self.lettergrade_ = ''
         self.outofn_ = 0
         self.finaldone_ = False
+        self.pchw_ = 0.0
+        self.pcmaxmt_ = 0.0
+        self.pcminmt_ = 0.0
+        self.pcfinal_ = 0.0
         
-        self.input(datalist,keyslist,cumuloutof,fdone)
+        self.input(datalist,keyslist,auxlist)
         self.computetotalgrade()
         
     # print content    
@@ -65,7 +73,7 @@ class StudentRecord:
         return ln + fn + stid + hwlist + mtlist + fs + tg + lg + '\n'
       
     # fill in all fields    
-    def input(self, datalist, keyslist, cumuloutof, fdone):
+    def input(self, datalist, keyslist, auxlist):
         nkeys=len(keyslist)
         if len(datalist)!=nkeys:
             sys.exit("Missing data entry for a student! Stop.")
@@ -86,9 +94,14 @@ class StudentRecord:
             elif key == 'Final':
                 self.finalscore_ = float(data)
             else:
-                sys.exit("Unknown key! Stop.")                 
-        self.outofn_ = cumuloutof
-        self.finaldone_ = fdone
+                sys.exit("Unknown key! Stop.")
+                
+        self.outofn_ = auxlist[0]
+        self.finaldone_ = auxlist[1]
+        self.pchw_ = auxlist[2]/100.0
+        self.pcmaxmt_ = auxlist[3]/100.0
+        self.pcminmt_ = auxlist[4]/100.0
+        self.pcfinal_ = auxlist[5]/100.0
              
     # compute total grade            
     def computetotalgrade(self):
@@ -106,7 +119,7 @@ class StudentRecord:
             minmt = min(self.mtscores_)   
         final = self.finalscore_
     
-        self.totalgrade_ = 0.20*hwavg+0.25*maxmt+0.20*minmt+0.35*final
+        self.totalgrade_ = self.pchw_*hwavg+self.pcmaxmt_*maxmt+self.pcminmt_*minmt+self.pcfinal_*final
         
     def assignlettergrade(self,lg):
         self.lettergrade_ = lg

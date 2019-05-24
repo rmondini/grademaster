@@ -1,8 +1,22 @@
 #!/usr/bin/env python
 
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#~~~~ Banner
+
 FILE_NAME = "Grademaster"
 REVISION_DATE = "2019-05-24"
 AUTHOR = "(rmondini@buffalo.edu)"
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#~~~~ Weight of each component (%)
+
+# 20% HW, 25% higher MT, 20% lower MT, 35% final
+PC_HW = 20
+PC_MAXMT = 25
+PC_MINMT = 20
+PC_FINAL = 35
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 import sys
 import time
@@ -13,6 +27,8 @@ from StudentRecord import StudentRecord
 from operator import itemgetter
 from lib_grademaster import *
 
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 def main() :
     
     time_start = time.time()
@@ -20,15 +36,7 @@ def main() :
     print "~~~~~~~~~~ " + FILE_NAME + " ~~~~~~~~~~"
     print REVISION_DATE + " " + AUTHOR 
     print
-    
-    #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~    
-    # 20% HW, 25% max MT, 20% min MT, 35% final
-    pchw=20
-    pcmaxmt=25
-    pcminmt=20
-    pcfinal=35    
-    #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~     
-    
+        
     n = len(sys.argv)
     if n<2 : 
         sys.exit("No input file. Stop.")
@@ -50,17 +58,20 @@ def main() :
     cumuloutof=0
     finaldone = False
     if 'HW1' in keyslist:
-        cumuloutof += 20
+        cumuloutof += PC_HW
     if 'M1' in keyslist:
-        cumuloutof += 25
+        cumuloutof += PC_MAXMT
     if 'M2' in keyslist:
-        cumuloutof += 20
+        cumuloutof += PC_MINMT
     if 'Final' in keyslist:
-        cumuloutof += 35
+        cumuloutof += PC_FINAL
         finaldone = True    
             
     # print keys
     print "keys = ",keyslist,"\n"
+    
+    # create auxiliary list
+    auxlist = [cumuloutof,finaldone,PC_HW,PC_MAXMT,PC_MINMT,PC_FINAL]
     
     # read in file
     # create list of StudentRecord
@@ -74,14 +85,14 @@ def main() :
         for word in words:
             if word != '' and word != '\r\n':
                 datalist.append(word)
-        sr = StudentRecord(datalist,keyslist,cumuloutof,finaldone)
+        sr = StudentRecord(datalist,keyslist,auxlist)
         recordlist.append(sr)
     
     # print recordlist
 #    for sr in recordlist:
 #        print sr
             
-    # compute class average on 'MT1', 'MT2', 'Final', or 'Total'
+    # compute class average for 'MT1', 'MT2', 'Final', or 'Total'
     strkey = 'Total'
     
     strkeyoutofn = 100
@@ -125,7 +136,7 @@ def main() :
  
      
      
-     
+
      
 
      
@@ -133,16 +144,17 @@ def main() :
      
             
     #TODO:
-    # pass 20%HW, 35% final etc from main instead of hardcode
     # implement different instructors&sections
     # find what A corresponds to etc after assigning letters
     # readme files with features of this code
-    # add comments to code for readibility
     
+    # measure execution time
     tmp_str = tot_exec_time_str(time_start)
     print tmp_str
     print "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
     return
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 if __name__ == "__main__" :
     main()

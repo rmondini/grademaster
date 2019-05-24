@@ -9,6 +9,7 @@ from StudentRecord import StudentRecord
 from operator import itemgetter
 
 #################################################
+# compute execution time
 
 def tot_exec_time_str(time_start):
     time_end = time.time()
@@ -17,6 +18,7 @@ def tot_exec_time_str(time_start):
     return tmp_str
 
 #################################################
+# look up student record by student ID
 
 def get_studrecpos_byid(recordlist,lookupid):
     
@@ -29,6 +31,7 @@ def get_studrecpos_byid(recordlist,lookupid):
     return pos
 
 #################################################
+# compute average for MT1, MT2, Final, or Total
 
 def compute_avg(recordlist,strkey):
 
@@ -47,6 +50,7 @@ def compute_avg(recordlist,strkey):
     return avgscore
 
 #################################################
+# create histogram for MT1, MT2, Final, or Total
 
 def create_histo(recordlist,strkey,cumuloutof):
     
@@ -81,6 +85,7 @@ def create_histo(recordlist,strkey,cumuloutof):
     plt.show()
 
 #################################################
+# rank students and assign letter grades
     
 def rank_students(recordlist,cumuloutof):
 
