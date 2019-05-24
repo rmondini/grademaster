@@ -21,6 +21,14 @@ def main() :
     print REVISION_DATE + " " + AUTHOR 
     print
     
+    #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~    
+    # 20% HW, 25% max MT, 20% min MT, 35% final
+    pchw=20
+    pcmaxmt=25
+    pcminmt=20
+    pcfinal=35    
+    #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~     
+    
     n = len(sys.argv)
     if n<2 : 
         sys.exit("No input file. Stop.")
@@ -38,6 +46,19 @@ def main() :
         if word != '' and word != '\r\n':
             keyslist.append(word)
 
+    # determine how far into the semester we are
+    cumuloutof=0
+    finaldone = False
+    if 'HW1' in keyslist:
+        cumuloutof += 20
+    if 'M1' in keyslist:
+        cumuloutof += 25
+    if 'M2' in keyslist:
+        cumuloutof += 20
+    if 'Final' in keyslist:
+        cumuloutof += 35
+        finaldone = True    
+            
     # print keys
     print "keys = ",keyslist,"\n"
     
@@ -53,7 +74,7 @@ def main() :
         for word in words:
             if word != '' and word != '\r\n':
                 datalist.append(word)
-        sr = StudentRecord(datalist,keyslist)
+        sr = StudentRecord(datalist,keyslist,cumuloutof,finaldone)
         recordlist.append(sr)
     
     # print recordlist
@@ -63,18 +84,18 @@ def main() :
     # compute class average on 'MT1', 'MT2', 'Final', or 'Total'
     strkey = 'Total'
     
-    recoutofn = 100
+    strkeyoutofn = 100
     if strkey == 'Total':
-        recoutofn = recordlist[0].getoutofn()   
-    print "Class average for " + strkey + ": %.1f" % compute_avg(recordlist,strkey) + '/' + str(recoutofn) + '\n'
+        strkeyoutofn = cumuloutof  
+    print "Class average for " + strkey + ": %.1f" % compute_avg(recordlist,strkey) + '/' + str(strkeyoutofn) + '\n'
 
     # create histogram for 'MT1', 'MT2', 'Final', or 'Total'
     strkey = 'Total'
     
-    create_histo(recordlist,strkey)
+    create_histo(recordlist,strkey,cumuloutof)
         
     # rank students and assign letter grades
-    rank_students(recordlist)
+    rank_students(recordlist,cumuloutof)
     
     # print recordlist
 #    for sr in recordlist:
@@ -91,7 +112,11 @@ def main() :
     
     # write out updated file in csv format
     outfile = open("output.csv", "w+")
-    outkeyslist = ', '.join(keyslist) + ',Total,Letter\n'
+    
+    if cumuloutof==0:
+        outkeyslist = ', '.join(keyslist) + '\n'
+    else:    
+        outkeyslist = ', '.join(keyslist) + ',Total,Letter\n'
     outfile.write(outkeyslist)
     for sr in recordlist:
         outfile.write(sr.printout())
@@ -108,10 +133,7 @@ def main() :
      
             
     #TODO:
-    # grades at different stages of the semester
-        # before even first homework
-        # fix csv output at stages
-        
+    # pass 20%HW, 35% final etc from main instead of hardcode
     # implement different instructors&sections
     # find what A corresponds to etc after assigning letters
     # readme files with features of this code

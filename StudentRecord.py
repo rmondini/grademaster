@@ -10,9 +10,10 @@ class StudentRecord:
     totalgrade_ = 0.0
     lettergrade_ = ''
     outofn_ = 0
+    finaldone_ = False
     
     # initialize class to zero and fill in all fields
-    def __init__(self,datalist,keyslist) :
+    def __init__(self,datalist,keyslist,cumuloutof,fdone) :
         self.lastname_ = ''
         self.firstname_ = ''
         self.studentid_ = ''
@@ -22,8 +23,9 @@ class StudentRecord:
         self.totalgrade_ = 0.0
         self.lettergrade_ = ''
         self.outofn_ = 0
+        self.finaldone_ = False
         
-        self.input(datalist,keyslist)
+        self.input(datalist,keyslist,cumuloutof,fdone)
         self.computetotalgrade()
         
     # print content    
@@ -43,15 +45,27 @@ class StudentRecord:
         ln = str(self.lastname_) + ','
         fn = str(self.firstname_) + ','
         stid = str(self.studentid_) + ','
-        hwlist = str(self.hwscores_).strip('[]') + ','
-        mtlist = str(self.mtscores_).strip('[]') + ','        
-        fs = str(self.finalscore_) + ','
-        tg = str(self.totalgrade_) + ','
-        lg = str(self.lettergrade_) + '\n'
-        return ln + fn + stid + hwlist + mtlist + fs + tg + lg
+        if self.hwscores_ == []:
+            hwlist = ''
+        else:    
+            hwlist = str(self.hwscores_).strip('[]') + ','
+        if self.mtscores_ == []:
+            mtlist = ''
+        else:        
+            mtlist = str(self.mtscores_).strip('[]') + ','
+        if self.finaldone_:            
+            fs = str(self.finalscore_) + ','
+        else:
+            fs = ''    
+        if self.outofn_ == 0:
+            tg=lg=''
+        else:    
+            tg = str(self.totalgrade_) + ','
+            lg = str(self.lettergrade_)
+        return ln + fn + stid + hwlist + mtlist + fs + tg + lg + '\n'
       
     # fill in all fields    
-    def input(self, datalist, keyslist):
+    def input(self, datalist, keyslist, cumuloutof, fdone):
         nkeys=len(keyslist)
         if len(datalist)!=nkeys:
             sys.exit("Missing data entry for a student! Stop.")
@@ -71,16 +85,10 @@ class StudentRecord:
                 self.mtscores_.append(float(data))
             elif key == 'Final':
                 self.finalscore_ = float(data)
-                self.outofn_ += 35
             else:
-                sys.exit("Unknown key! Stop.")
-         
-        if 'HW1' in keyslist:
-            self.outofn_ += 20
-        if 'MT1' in keyslist:
-            self.outofn_ += 25
-        if 'MT2' in keyslist:
-            self.outofn_ += 20                 
+                sys.exit("Unknown key! Stop.")                 
+        self.outofn_ = cumuloutof
+        self.finaldone_ = fdone
              
     # compute total grade            
     def computetotalgrade(self):
@@ -89,7 +97,7 @@ class StudentRecord:
         else:    
             hwavg = sum(self.hwscores_)/len(self.hwscores_)
         if self.mtscores_ == []:
-            maxmt,minmt=0.0,0.0
+            maxmt=minmt=0.0
         elif len(self.mtscores_)==1:
             maxmt=self.mtscores_[0]
             minmt=0.0    
@@ -98,7 +106,6 @@ class StudentRecord:
             minmt = min(self.mtscores_)   
         final = self.finalscore_
     
-        # 20% HW, 25% max MT, 20% min MT, 35% final
         self.totalgrade_ = 0.20*hwavg+0.25*maxmt+0.20*minmt+0.35*final
         
     def assignlettergrade(self,lg):
@@ -124,9 +131,6 @@ class StudentRecord:
         return str(self.lastname_) + ' ' + str(self.firstname_)
     
     def getstudentid(self):
-        return self.studentid_
-    
-    def getoutofn(self):
-        return self.outofn_ 
+        return self.studentid_ 
      
         

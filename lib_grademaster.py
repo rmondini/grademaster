@@ -48,9 +48,9 @@ def compute_avg(recordlist,strkey):
 
 #################################################
 
-def create_histo(recordlist,strkey):
+def create_histo(recordlist,strkey,cumuloutof):
     
-    recoutofn=100
+    strkeyoutofn=100
     if strkey == 'MT1':
         scorelist = [i.getmt1score() for i in recordlist]
     elif strkey == 'MT2':   
@@ -59,7 +59,7 @@ def create_histo(recordlist,strkey):
         scorelist = [i.getfinalscore() for i in recordlist]               
     elif strkey == 'Total':
         scorelist = [i.gettotalgrade() for i in recordlist]  
-        recoutofn = recordlist[0].getoutofn()
+        strkeyoutofn = cumuloutof
     else:
         sys.exit("Unknown key! Stop.")
         
@@ -71,8 +71,8 @@ def create_histo(recordlist,strkey):
     
     fig = plt.figure()
     ax1 = fig.add_subplot(111)
-    ax1.set_title('Class average: %.1f' % compute_avg(recordlist,strkey) + '/' + str(recoutofn))
-    ax1.set_xlabel('Score (out of ' + str(recoutofn) + ')')
+    ax1.set_title('Class average: %.1f' % compute_avg(recordlist,strkey) + '/' + str(strkeyoutofn))
+    ax1.set_xlabel('Score (out of ' + str(strkeyoutofn) + ')')
     ax1.set_ylabel('# of students')
     ax1.set_xticks(range(0,110,10))
     ax1.yaxis.set_major_locator(mtick.MaxNLocator(integer=True))
@@ -82,12 +82,12 @@ def create_histo(recordlist,strkey):
 
 #################################################
     
-def rank_students(recordlist):
+def rank_students(recordlist,cumuloutof):
 
     nreclist = len(recordlist)
     
     # check whether at least one homework was submitted
-    if recordlist[0].getoutofn() == 0:
+    if cumuloutof == 0:
         return
     
     # create list with only student id and total grade
