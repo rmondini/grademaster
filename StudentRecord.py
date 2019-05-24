@@ -76,6 +76,7 @@ class StudentRecord:
     def input(self, datalist, keyslist, auxlist):
         nkeys=len(keyslist)
         if len(datalist)!=nkeys:
+            print datalist
             sys.exit("Missing data entry for a student! Stop.")
                    
         for i in range(nkeys):

@@ -150,7 +150,11 @@ def rank_students(recordlist,cumuloutof):
             sorted_idtotgradelist[ipos].append('F')
             studrecpos=get_studrecpos_byid(recordlist,sorted_idtotgradelist[ipos][0])   
             recordlist[studrecpos].assignlettergrade('F')   
+    
+    # build letter/numerical grade conversion
+    numglist = [sorted_idtotgradelist[i*tenpc-1][1] for i in range(1,10)] + [0.0]
+    letterlist = ['A','A-','B+','B','B-','C+','C','C-','D','F']
 
-    return
+    return [numglist,letterlist]
 
 #################################################

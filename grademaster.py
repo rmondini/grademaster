@@ -94,7 +94,6 @@ def main() :
             
     # compute class average for 'MT1', 'MT2', 'Final', or 'Total'
     strkey = 'Total'
-    
     strkeyoutofn = 100
     if strkey == 'Total':
         strkeyoutofn = cumuloutof  
@@ -102,11 +101,14 @@ def main() :
 
     # create histogram for 'MT1', 'MT2', 'Final', or 'Total'
     strkey = 'Total'
-    
     create_histo(recordlist,strkey,cumuloutof)
         
     # rank students and assign letter grades
-    rank_students(recordlist,cumuloutof)
+    # print out letter/numerical grade conversion
+    lglist = rank_students(recordlist,cumuloutof)
+    for i in range(len(lglist[0])):
+        print "Total >= %.1f" % lglist[0][i] + " -> " + lglist[1][i]
+    print '\n'
     
     # print recordlist
 #    for sr in recordlist:
@@ -115,7 +117,6 @@ def main() :
     # look up a student record by student id
     # print their record if student is found
     lookupid = 59118211
-    
     studrecpos=get_studrecpos_byid(recordlist,lookupid)
     print "Student ",lookupid, " is at position: ",studrecpos,'\n'
     if isinstance(studrecpos,(int,long)):
@@ -123,7 +124,6 @@ def main() :
     
     # write out updated file in csv format
     outfile = open("output.csv", "w+")
-    
     if cumuloutof==0:
         outkeyslist = ', '.join(keyslist) + '\n'
     else:    
@@ -145,9 +145,14 @@ def main() :
             
     #TODO:
     # implement different instructors&sections
-    # find what A corresponds to etc after assigning letters
     # readme files with features of this code
-    
+
+
+
+
+
+
+  
     # measure execution time
     tmp_str = tot_exec_time_str(time_start)
     print tmp_str
