@@ -62,10 +62,15 @@ def main() :
             
     # compute class average on 'MT1', 'MT2', 'Final', or 'Total'
     strkey = 'Total'
-    print "Class average for " + strkey + ": ",compute_avg(recordlist,strkey),'\n'
+    
+    recoutofn = 100
+    if strkey == 'Total':
+        recoutofn = recordlist[0].getoutofn()   
+    print "Class average for " + strkey + ": %.1f" % compute_avg(recordlist,strkey) + '/' + str(recoutofn) + '\n'
 
     # create histogram for 'MT1', 'MT2', 'Final', or 'Total'
     strkey = 'Total'
+    
     create_histo(recordlist,strkey)
         
     # rank students and assign letter grades
@@ -77,7 +82,8 @@ def main() :
 
     # look up a student record by student id
     # print their record if student is found
-    lookupid = 64954807
+    lookupid = 59118211
+    
     studrecpos=get_studrecpos_byid(recordlist,lookupid)
     print "Student ",lookupid, " is at position: ",studrecpos,'\n'
     if isinstance(studrecpos,(int,long)):
@@ -103,12 +109,19 @@ def main() :
             
     #TODO:
     # grades at different stages of the semester
-    # implement different sections
+        # before even first homework
+        # fix csv output at stages
+        
+    # implement different instructors&sections
+    # find what A corresponds to etc after assigning letters
+    # readme files with features of this code
+    # add comments to code for readibility
     
     tmp_str = tot_exec_time_str(time_start)
     print tmp_str
     print "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
-    
+    return
+
 if __name__ == "__main__" :
     main()
       
