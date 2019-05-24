@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 FILE_NAME = "Grademaster"
-REVISION_DATE = "2019-05-23"
+REVISION_DATE = "2019-05-24"
 AUTHOR = "(rmondini@buffalo.edu)"
 
 import sys
@@ -50,15 +50,15 @@ def create_histo(recordlist,strkey):
     else:
         sys.exit("Unknown key! Stop.")
     
-#     plt.title('Class statistics')
-#     plt.xlabel('Score')
-#     plt.ylabel('# of students')
-#     plt.xticks(range(0,110,10))
-#     plt.hist(scorelist, bins=range(0,110,10))
+    #plt.title('Class statistics')
+    #plt.xlabel('Score')
+    #plt.ylabel('# of students')
+    #plt.xticks(range(0,110,10))
+    #plt.hist(scorelist, bins=range(0,110,10))
     
     fig = plt.figure()
     ax1 = fig.add_subplot(111)
-    ax1.set_title('Class statistics')
+    ax1.set_title('Class average: %.1f' % compute_avg(recordlist,strkey))
     ax1.set_xlabel('Score')
     ax1.set_ylabel('# of students')
     ax1.set_xticks(range(0,110,10))
@@ -81,10 +81,10 @@ def rank_students(recordlist):
     tenpc=nreclist/10
     
     # assign letter grades:
-    # A (10%), A- (10%)
-    # B+ (10%), B (10%), B- (10%)
-    # C+ (10%), C (10%), C- (10%)
-    # D (10%), F (10%)
+    # A (top 10%), A- (next 10%)
+    # B+ (next 10%), B (next 10%), B- (next 10%)
+    # C+ (next 10%), C (next 10%), C- (next 10%)
+    # D (next 10%), F (bottom 10%)
     for ipos in range(nreclist):
         if 0 <= ipos <= (tenpc-1):
             sorted_idtotgradelist[ipos].append('A')
@@ -136,7 +136,6 @@ def main() :
     print
     
     n = len(sys.argv)
-    
     if n<2 : 
         sys.exit("No input file. Stop.")
     
@@ -153,7 +152,7 @@ def main() :
         if word != '' and word != '\r\n':
             keyslist.append(word)
 
-    #print keys
+    # print keys
     print "keys = ",keyslist,"\n"
     
     # read in file
@@ -176,7 +175,7 @@ def main() :
 #        print sr
             
     # compute class average on 'MT1', 'MT2', 'Final', or 'Total'
-    strkey = 'MT1'
+    strkey = 'Total'
     print "Class average for " + strkey + ": ",compute_avg(recordlist,strkey)
 
     # create histogram for 'MT1', 'MT2', 'Final', or 'Total'
@@ -217,6 +216,7 @@ def main() :
      
             
     #TODO:
+    # test with longer input file
     # file with functions
     # grades at different stages of the semester
     # implement different sections
