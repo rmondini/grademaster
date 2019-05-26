@@ -107,7 +107,7 @@ def main() :
     # print out letter/numerical grade conversion
     lglist = rank_students(recordlist,cumuloutof)
     for i in range(len(lglist[0])):
-        print "Total >= %.1f" % lglist[0][i] + " -> " + lglist[1][i]
+        print "Total >= %.1f" % lglist[0][i] + '/' + str(cumuloutof) + " -> " + lglist[1][i]
     print '\n'
     
     # print recordlist
@@ -145,7 +145,6 @@ def main() :
             
     #TODO:
     # implement different instructors&sections
-    # readme files with features of this code
 
 
 

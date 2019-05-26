@@ -77,7 +77,7 @@ class StudentRecord:
         nkeys=len(keyslist)
         if len(datalist)!=nkeys:
             print datalist
-            sys.exit("Missing data entry for a student! Stop.")
+            sys.exit("Data/keys mismatch for this student! Stop.")
                    
         for i in range(nkeys):
             key = keyslist[i]
