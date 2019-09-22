@@ -1,6 +1,6 @@
 # grademaster
 
-## Project to manage grades of a class (e.g. freshman-level physics class) given input file of students' names and IDs.    
+### Project to manage grades of a class (e.g. freshman-level physics class) given input file of students' names and IDs.    
 
 The code is written in python. The chosen data structure is a list where each element of the list is an object of the class StudentRecord and represents a student. Each StudentRecord object contains all the relevant information for that student (name, ID, grades etc).  
 
