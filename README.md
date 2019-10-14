@@ -18,7 +18,7 @@ Different input files (in csv format) are provided:
 - "grade_dummy_file_short_notests.csv" represents the class before the first midterm is taken and only 8 homework assignments have been completed.
 
 The code is run by executing the main file with one of the input files. For instance:  
-python2 grademaster.py grade_dummy_file.csv  
+./grademaster.py grade_dummy_file.csv  
 
 It generates the output file "output.csv", which is an updated version of the input file containing total grades and letter grades for all students.  
 
