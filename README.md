@@ -2,7 +2,7 @@
 
 ### Project to manage grades of a class (e.g. freshman-level physics class) given input file of students' names and IDs.    
 
-The code is written in python. The chosen data structure is a list where each element of the list is an object of the class StudentRecord and represents a student. Each StudentRecord object contains all the relevant information for that student (name, ID, grades etc).  
+The code is written in Python 2. The chosen data structure is a list where each element of the list is an object of the class StudentRecord and represents a student. Each StudentRecord object contains all the relevant information for that student (name, ID, grades etc).  
 
 The code is organized as follows:  
 - "StudentRecord.py" contains the definition and implementation of the StudentRecord class.
@@ -18,7 +18,7 @@ Different input files (in csv format) are provided:
 - "grade_dummy_file_short_notests.csv" represents the class before the first midterm is taken and only 8 homework assignments have been completed.
 
 The code is run by executing the main file with one of the input files. For instance:  
-./grademaster.py grade_dummy_file.csv  
+python2 grademaster.py grade_dummy_file.csv  
 
 It generates the output file "output.csv", which is an updated version of the input file containing total grades and letter grades for all students.  
 
